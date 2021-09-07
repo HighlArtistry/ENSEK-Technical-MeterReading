@@ -1,0 +1,52 @@
+﻿@using MeterReadings1.Models;
+@model IEnumerable<MeterReading>
+@{
+    Layout = null;
+}
+
+<h1>MeterReadings:</h1>
+<h4><a href="../index.html">Go to Swagger Documentation (Account CRUD operations available)</a></h4>
+<h4>Validation Rules:</h4>
+<ul>
+    <li>Duplicate entires will not be loaded into db</li>
+    <li>A MeterReading's AccountId must exist in the Accounts db</li>
+    <li>Reading values must be <b>NNNNN</b> (5 numbers long)</li>
+</ul>
+
+<h4>How to use this software:</h4>
+<ol>
+    <li>Click the <b>'Choose file'</b> button</li>
+    <li>Select the CSV file that contains the MeterReadings (e.g. Meter_Reading.csv)</li>
+    <li>Click the <b>'Upload'</b> button </li>
+    <li>See how many records passed validation and were added to the database.</li>
+</ol>
+
+<form asp-controller="MeterReadings" asp-action="Index" method="post" enctype="multipart/form-data">
+
+    <input type="file" name="file" />
+    <hr />
+    <button type="submit">Upload</button>
+
+</form>
+
+@if (Model.Count() > 0)
+{
+    <hr />
+    <h3>Successful Records: @Model.Count()</h3>
+    <table cellpadding="0" cellspacing="0" border="1">
+        <tr>
+            <td>AccountId</td>
+            <td>MeterReadingDateTime</td>
+            <td>MeterReadValue</td>
+        </tr>
+        @foreach (MeterReading meterReading in Model)
+        {
+            <tr>
+                <td>@meterReading.AccountId</td>
+                <td>@meterReading.MeterReadingDateTime</td>
+                <td>@meterReading.MeterReadValue</td>
+            </tr>
+        }
+    </table>
+    <h4>Failed: @ViewBag.Scrap</h4>
+}

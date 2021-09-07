@@ -1,0 +1,35 @@
+﻿@using MeterReadings1.Models;
+@model IEnumerable<Account>
+@{ 
+    Layout = null;
+}
+
+<h1>Accounts:</h1>
+
+<form asp-controller="Accounts" asp-action="Index" method="post" enctype="multipart/form-data">
+
+    <input type="file" name="file" />
+    <hr />
+    <button type="submit">Upload</button>
+
+</form>
+
+@if (Model.Count() > 0)
+{
+    <hr />
+    <table cellpadding="0" cellspacing="0" border="1">
+        <tr>
+            <td>Id</td>
+            <td>FirstName</td>
+            <td>LastName</td>
+        </tr>
+        @foreach (Account account in Model)
+        {
+            <tr>
+                <td>@account.AccountId</td>
+                <td>@account.FirstName</td>
+                <td>@account.LastName</td>
+            </tr>
+        }
+    </table>
+}
